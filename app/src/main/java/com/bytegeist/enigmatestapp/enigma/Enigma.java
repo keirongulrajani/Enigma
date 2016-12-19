@@ -14,8 +14,6 @@ import rx.Observable;
 import rx.Single;
 import rx.functions.Func1;
 
-import static com.bytegeist.enigmatestapp.enigma.Rotor.positionOfCharInAlphabet;
-
 public final class Enigma {
 
     protected static final Rotor ROTOR_I = new Rotor("ekmflgdqvzntowyhxuspaibrcj".toCharArray());
@@ -79,19 +77,16 @@ public final class Enigma {
     @VisibleForTesting
     protected char getEncodedChar(char c) {
         char encodedChar = c;
-        int encodedCharPosition = positionOfCharInAlphabet(c);
 
         //advance the rotor (before the character goes in as per the instructions)
         advanceRotors();
 
         //put through rotors til the end
         for (Rotor rotor : mRotors) {
-            //encodedCharPosition = rotor.forwardMapCharPositionToPosition(encodedCharPosition);
             encodedChar = rotor.forwardMapCharToChar(encodedChar);
         }
 
         //put through reflector
-        //encodedCharPosition = positionOfCharInAlphabet(mReflector.getCharAtPosition(encodedCharPosition));
         encodedChar = mReflector.forwardMapCharToChar(encodedChar);
 
         //reverse through rotors
@@ -100,10 +95,8 @@ public final class Enigma {
         // Iterate in reverse.
         while (li.hasPrevious()) {
             Rotor previous = li.previous();
-            //encodedCharPosition = previous.reverseMapCharPositionToPosition(encodedCharPosition);
             encodedChar = previous.reverseMapCharToChar(encodedChar);
         }
-        //encodedChar = mRotors.get(0).getCharAtPosition(encodedCharPosition);
         return encodedChar;
     }
 
