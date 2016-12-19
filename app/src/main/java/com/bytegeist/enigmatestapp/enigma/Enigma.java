@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import rx.Observable;
 import rx.Single;
 import rx.functions.Func1;
 
@@ -46,31 +45,31 @@ public final class Enigma {
      * @return the encrypted message
      */
     public Single<String> encrypt(String unencryptedMessage) {
-        return Observable.just(unencryptedMessage)
-                .flatMap(new Func1<String, Observable<String>>() {
+        return Single.just(unencryptedMessage)
+                .flatMap(new Func1<String, Single<String>>() {
                     @Override
-                    public Observable<String> call(String s) {
+                    public Single<String> call(String s) {
                         //remove any chars that aren't a-z (e.g. spaces and punctuation)
-                        return Observable.just(s.replaceAll("[^a-zA-Z]", "")
+                        return Single.just(s.replaceAll("[^a-zA-Z]", "")
                                 .toLowerCase());
                     }
                 })
-                .flatMap(new Func1<String, Observable<Character[]>>() {
+                .flatMap(new Func1<String, Single<Character[]>>() {
                     @Override
-                    public Observable<Character[]> call(String s) {
+                    public Single<Character[]> call(String s) {
                         //map to array of chars
-                        return Observable.just(ArrayUtils.toObject(s.toCharArray()));
+                        return Single.just(ArrayUtils.toObject(s.toCharArray()));
                     }
-                }).flatMap(new Func1<Character[], Observable<String>>() {
+                }).flatMap(new Func1<Character[], Single<String>>() {
                     @Override
-                    public Observable<String> call(Character[] characters) {
+                    public Single<String> call(Character[] characters) {
                         char[] encryptedChars = new char[characters.length];
                         for (int i = 0; i < characters.length; i++) {
                             encryptedChars[i] = getEncodedChar(characters[i]);
                         }
-                        return Observable.just(new String(encryptedChars));
+                        return Single.just(new String(encryptedChars));
                     }
-                }).toSingle();
+                });
 
     }
 
