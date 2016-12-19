@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EnigmaTestApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome_message">Or just tap the message icon to download text and encode it!</string>
+</resources>
