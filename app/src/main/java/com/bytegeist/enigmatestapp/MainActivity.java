@@ -2,13 +2,14 @@ package com.bytegeist.enigmatestapp;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bytegeist.enigmatestapp.data.TestDataFetcher;
 import com.bytegeist.enigmatestapp.enigma.Enigma;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private TextView mMessage;
     private EditText mCustomMessage;
+    private Button mRunButton;
+    private Button mResetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
         mCustomMessage = (EditText) findViewById(R.id.custom_input);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mRunButton = (Button) findViewById(R.id.run);
+        mResetButton = (Button) findViewById(R.id.reset);
+
+        mRunButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 if (mCustomMessage.getText().toString().length() != 0) {
@@ -49,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
                     fetchDataThenEncode();
                 }
 
+            }
+        });
+        mResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Enigma.getInstance().reset();
+                Toast.makeText(MainActivity.this, "Enigma rotors reset", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -30,6 +30,10 @@ public class Rotor {
         mOffset = offset;
     }
 
+    protected void reset() {
+        mOffset = 0;
+    }
+
     @VisibleForTesting
     protected int getOffset() {
         return mOffset;

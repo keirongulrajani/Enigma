@@ -126,4 +126,10 @@ public final class Enigma {
     protected void setRotors(Rotor... rotors) {
         mRotors = Arrays.asList(rotors);
     }
+
+    public void reset() {
+        for (Rotor rotor : mRotors) {
+            rotor.reset();
+        }
+    }
 }
